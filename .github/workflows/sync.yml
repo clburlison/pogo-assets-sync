@@ -9,12 +9,13 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-    # pogoassets PMSF
-    - uses: actions/checkout@v2
+    - name: pogoassets checkout (PMSF)
+      uses: actions/checkout@v2
       with:
         repository: 'whitewillem/PogoAssets'
         path: 'pogoassets'
-    - uses: jakejarvis/s3-sync-action@master
+    - name: pogoassets sync (PMSF)
+      uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --size-only
       env:
@@ -24,12 +25,13 @@ jobs:
         SOURCE_DIR: 'pogoassets'
         DEST_DIR: 'pogoassets'
 
-    # pogoassets Home
-    - uses: actions/checkout@v2
+    - name: pogoassets checkout (ICONS)
+      uses: actions/checkout@v2
       with:
         repository: 'Mygod/pokicons'
         path: 'pogoassets_icons'
-    - uses: jakejarvis/s3-sync-action@master
+    - name: pogoassets sync (ICONS)
+      uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --size-only
       env:
@@ -39,13 +41,45 @@ jobs:
         SOURCE_DIR: 'pogoassets_icons'
         DEST_DIR: 'pogoassets_icons'
 
+    - name: Derpy checkout (PMSF)
+      uses: actions/checkout@v2
+      with:
+        repository: 'tallypokemap/derpysprites'
+        path: 'derpy'
+    - name: Derpy sync (PMSF)
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --size-only
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        SOURCE_DIR: 'derpy'
+        DEST_DIR: 'derpy'
 
-    # shuffle PMSF/ICONS
-    - uses: actions/checkout@v2
+    - name: Awful checkout (PMSF)
+      uses: actions/checkout@v2
+      with:
+        repository: 'ccev/pogoafd'
+        path: 'awful'
+    - name: Awful sync (PMSF)
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --size-only
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        SOURCE_DIR: 'awful'
+        DEST_DIR: 'awful'
+
+    - name: shuffle checkout (PMSF/ICONS)
+      uses: actions/checkout@v2
       with:
         repository: 'nileplumb/PkmnShuffleMap'
         path: 'shuffle'
-    - uses: jakejarvis/s3-sync-action@master
+    - name: shuffle sync (PMSF/ICONS)
+      uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --size-only
       env:
@@ -55,12 +89,13 @@ jobs:
         SOURCE_DIR: 'shuffle'
         DEST_DIR: 'shuffle'
 
-    # shiny shuffle PMSF
-    - uses: actions/checkout@v2
+    - name: shiny shuffle checkout (PMSF)
+      uses: actions/checkout@v2
       with:
         repository: 'geekygreek7/pokedave_shuffle_icons_-PMSF-'
         path: 'shinyshuffle'
-    - uses: jakejarvis/s3-sync-action@master
+    - name: shiny shuffle sync (PMSF)
+      uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --size-only
       env:
@@ -70,12 +105,13 @@ jobs:
         SOURCE_DIR: 'shinyshuffle'
         DEST_DIR: 'shinyshuffle'
 
-    # shiny shuffle Home
-    - uses: actions/checkout@v2
+    - name: shiny shuffle checkout (ICONS)
+      uses: actions/checkout@v2
       with:
         repository: 'Mygod/pokedave_shuffle_icons_-ICONS-'
         path: 'shinyshuffle_icons'
-    - uses: jakejarvis/s3-sync-action@master
+    - name: shiny shuffle sync (ICONS)
+      uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --size-only
       env:
@@ -85,12 +121,13 @@ jobs:
         SOURCE_DIR: 'shinyshuffle_icons'
         DEST_DIR: 'shinyshuffle_icons'
 
-    # home PMSF
-    - uses: actions/checkout@v2
+    - name: Home checkout (PMSF)
+      uses: actions/checkout@v2
       with:
         repository: 'nileplumb/PkmnHomeIcons'
         path: 'home'
-    - uses: jakejarvis/s3-sync-action@master
+    - name: Home sync (PMSF)
+      uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --size-only
       env:
@@ -100,13 +137,14 @@ jobs:
         SOURCE_DIR: 'home'
         DEST_DIR: 'home'
 
-    # home ICONS
-    - uses: actions/checkout@v2
+    - name: Home checkout (ICONS)
+      uses: actions/checkout@v2
       with:
         repository: 'nileplumb/PkmnHomeIcons'
         ref: 'ICONS'
         path: 'home_icons'
-    - uses: jakejarvis/s3-sync-action@master
+    - name: Home sync (ICONS)
+      uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --size-only
       env:
